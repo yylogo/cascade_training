@@ -1,4 +1,5 @@
 #include <opencv2/opencv.hpp>
+#include <fstream>
 #include <stdio.h>
 #include "sub_str.h"
 
@@ -87,6 +88,14 @@ void save_to_file(int id) {
     str_new += "new.";
     str_new += str_vec[str_vec.size() - 1];
     imwrite(str_new, img_source(img_boxes[id - 1][0]));
+	ofstream fp("info.dat", ios::app);
+	fp << str_new << '\t' << img_boxes[id - 1].size() << '\t';
+	for(int i = 0; i < img_boxes[id - 1].size(); i++){
+		Rect rec = img_boxes[id - 1][i];
+		fp << rec.x << ' ' << rec.y << ' ' << rec.width << ' ' << rec.height << '\t';
+	}
+	fp << endl;
+	fp.close();
     //写入图片文件
     //写入info文件
 }
@@ -94,8 +103,8 @@ void save_to_file(int id) {
 void para_init() {
     cout << "准备数据的辅助程序：" << endl;
     cout << "输入图片名字（printf的格式）：" << endl;
-    //cin >> file_name;
-    file_name = "data/img%d.jpg";
+    cin >> file_name;
+    //file_name = "data/img%d.jpg";
     cout << file_name << endl;
     Mat tmp = open_image(1);
     new_size = img_size = tmp.size();
@@ -120,6 +129,7 @@ Mat open_image(int id) {
     pic = imread(str);
     if(pic.empty()){
         cout << "The image " << str << " open failed. " << endl;
+		exit(0);
     }
     if(new_size.width != 0){
         resize(pic, pic, new_size);

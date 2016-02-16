@@ -18,7 +18,7 @@ using namespace cv;
 void detectAndDisplay( Mat frame );
 
 /** Global variables */
-String face_cascade_name = "xmls/lbpcascade_frontalface.xml";
+String face_cascade_name = "params.xml";
 String eyes_cascade_name = "xmls/haarcascade_eye_tree_eyeglasses.xml";
 CascadeClassifier face_cascade;
 CascadeClassifier eyes_cascade;
